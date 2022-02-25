@@ -7,7 +7,7 @@ data:
   - plots
 
   since: 2021/01/01
-  until: 2022/02/24
+  until: 2022/02/25
 
   output_folder: outs/data
   metrics_file: outs/data_metrics.json
