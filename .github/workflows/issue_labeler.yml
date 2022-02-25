@@ -1,0 +1,15 @@
+name: Issue Labeler
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  predict:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        model: ["ghcr.io/iterative/workshop-uncool-mlops-solution:main"]
+    steps:
+      - name: Model Predict
+        run: docker run ${{ matrix.model }} "${{ github.event.issue.title }}"
