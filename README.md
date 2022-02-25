@@ -207,7 +207,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-        fetch-depth: 0
+          fetch-depth: 0
 
       - name: Setup
         run: |
@@ -226,13 +226,13 @@ jobs:
         run: |
           dvc push
 
-    - name: Create a P.R. with CML 
+      - name: Create a P.R. with CML 
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cml pr "outs.*" "dvc.lock"
 
-    - name: CML Report
+      - name: CML Report
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
