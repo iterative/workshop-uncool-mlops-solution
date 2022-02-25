@@ -1,0 +1,114 @@
+schema: '2.0'
+stages:
+  get-data:
+    cmd: python src/get_data.py --output_folder outs/data
+    deps:
+    - path: src/get_data.py
+      md5: 4661b03a1d5ea1e17cfa2107fd8dc6fc
+      size: 1790
+    params:
+      params.yaml:
+        data.labels:
+        - data-sync
+        - experiments
+        - plots
+        data.repo: iterative/dvc
+        data.since: 2021/01/01
+        data.until: 2022/02/24
+    outs:
+    - path: outs/data
+      md5: ee718b82fa4b349030b0d118f6ad4eb0.dir
+      size: 7726
+      nfiles: 149
+  split-data:
+    cmd: python src/split_data.py outs/data outs/split 0.2 outs/split_metrics.json
+    deps:
+    - path: outs/data
+      md5: ee718b82fa4b349030b0d118f6ad4eb0.dir
+      size: 7726
+      nfiles: 149
+    - path: src/split_data.py
+      md5: 4257c1dd971b77407f5e86af0e0edd4d
+      size: 2177
+    outs:
+    - path: outs/split
+      md5: 9020ba50c464b0ab8ceeffb4c50225b9.dir
+      size: 11627
+      nfiles: 2
+    - path: outs/split_metrics.json
+      md5: 94fbf3474caca16430b75a98c3e219c0
+      size: 167
+  compute-data-metrics:
+    cmd: python src/compute_data_metrics.py --input_folder outs/data --output_metrics_file
+      outs/data_metrics.json
+    deps:
+    - path: outs/data
+      md5: ee718b82fa4b349030b0d118f6ad4eb0.dir
+      size: 7726
+      nfiles: 149
+    - path: src/compute_data_metrics.py
+      md5: 2667ba0ed4ea950a2c77df60a2921429
+      size: 566
+    outs:
+    - path: outs/data_metrics.json
+      md5: b47806515a30f27fc1bb228bc1389a1f
+      size: 63
+  train:
+    cmd: python src/train.py outs/split outs/train
+    deps:
+    - path: outs/split
+      md5: 9020ba50c464b0ab8ceeffb4c50225b9.dir
+      size: 11627
+      nfiles: 2
+    - path: src/train.py
+      md5: 4ec2d0447c5ce60a6ca3314c3a9d7fe1
+      size: 2501
+    params:
+      params.yaml:
+        data.labels:
+        - data-sync
+        - experiments
+        - plots
+        train:
+          output_folder: outs/train
+          metrics_folder: outs/train_metrics
+          pretrained_model: MoritzLaurer/xtremedistil-l6-h256-mnli-fever-anli-ling-binary
+          epochs: 15
+    outs:
+    - path: outs/train
+      md5: 4c30775cc86d7392f00112e762a208d2.dir
+      size: 51992875
+      nfiles: 7
+    - path: outs/train_metrics
+      md5: 4c264b6dd5da8a14f5ccbb59cf5a7dad.dir
+      size: 2889
+      nfiles: 10
+    - path: outs/train_metrics.json
+      md5: d3a5cb9a0d55be77ff102dc3c2c4e622
+      size: 351
+  eval:
+    cmd: python src/eval.py outs/split/val.json outs/train outs/eval
+    deps:
+    - path: outs/split/val.json
+      md5: 1ef19a5dae5fd12fc71d164d1f26fddf
+      size: 2509
+    - path: outs/train
+      md5: 4c30775cc86d7392f00112e762a208d2.dir
+      size: 51992875
+      nfiles: 7
+    - path: src/eval.py
+      md5: f733df5cfaaef682afcc65babff16c06
+      size: 978
+    - path: src/inference.py
+      md5: 0c3515e93bb2377cc71dd6086c9d1010
+      size: 605
+    params:
+      params.yaml:
+        data.labels:
+        - data-sync
+        - experiments
+        - plots
+    outs:
+    - path: outs/eval/plots/confusion_matrix.json
+      md5: b42fb2663ba74dde1bd096bc84c797e1
+      size: 2338
