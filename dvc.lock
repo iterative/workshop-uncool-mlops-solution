@@ -32,11 +32,11 @@ stages:
       size: 2177
     outs:
     - path: outs/split
-      md5: 9020ba50c464b0ab8ceeffb4c50225b9.dir
+      md5: 8886e3c46d80319a6c3349c24ae59550.dir
       size: 11627
       nfiles: 2
     - path: outs/split_metrics.json
-      md5: 94fbf3474caca16430b75a98c3e219c0
+      md5: 1a6dd542b00d1f375cd18b421a057aa1
       size: 167
   compute-data-metrics:
     cmd: python src/compute_data_metrics.py --input_folder outs/data --output_metrics_file
@@ -57,7 +57,7 @@ stages:
     cmd: python src/train.py outs/split outs/train
     deps:
     - path: outs/split
-      md5: 9020ba50c464b0ab8ceeffb4c50225b9.dir
+      md5: 8886e3c46d80319a6c3349c24ae59550.dir
       size: 11627
       nfiles: 2
     - path: src/train.py
@@ -73,28 +73,28 @@ stages:
           output_folder: outs/train
           metrics_folder: outs/train_metrics
           pretrained_model: MoritzLaurer/xtremedistil-l6-h256-mnli-fever-anli-ling-binary
-          epochs: 15
+          epochs: 10
     outs:
     - path: outs/train
-      md5: 4c30775cc86d7392f00112e762a208d2.dir
-      size: 51992875
+      md5: 5f6566becff63178752d5b3057050533.dir
+      size: 51993030
       nfiles: 7
     - path: outs/train_metrics
-      md5: 4c264b6dd5da8a14f5ccbb59cf5a7dad.dir
-      size: 2889
+      md5: 97ee9080e4d21b364ed2042ad000ea45.dir
+      size: 2032
       nfiles: 10
     - path: outs/train_metrics.json
-      md5: d3a5cb9a0d55be77ff102dc3c2c4e622
-      size: 351
+      md5: d5f072cbf79ccf19b0ce5dd084f37010
+      size: 344
   eval:
     cmd: python src/eval.py outs/split/val.json outs/train outs/eval
     deps:
     - path: outs/split/val.json
-      md5: 1ef19a5dae5fd12fc71d164d1f26fddf
-      size: 2509
+      md5: b8314d9b0e06c6e2406a97ee9d2d9db5
+      size: 2341
     - path: outs/train
-      md5: 4c30775cc86d7392f00112e762a208d2.dir
-      size: 51992875
+      md5: 5f6566becff63178752d5b3057050533.dir
+      size: 51993030
       nfiles: 7
     - path: src/eval.py
       md5: f733df5cfaaef682afcc65babff16c06
@@ -110,5 +110,5 @@ stages:
         - plots
     outs:
     - path: outs/eval/plots/confusion_matrix.json
-      md5: b42fb2663ba74dde1bd096bc84c797e1
-      size: 2338
+      md5: 903a1253bd2619419d968fbad5169c60
+      size: 2332
