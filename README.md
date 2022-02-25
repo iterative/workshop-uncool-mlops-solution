@@ -230,7 +230,7 @@ jobs:
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cml pr "outs.*" "dvc.lock"
+          cml pr "dvc.lock" "outs/*.json" "outs/eval"  "outs/train_metrics"
 
       - name: CML Report
         env:
@@ -336,7 +336,7 @@ jobs:
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cml pr "outs.*" "dvc.lock"
+          cml pr "dvc.lock" "outs/*.json" "outs/eval"  "outs/train_metrics"
 
       - name: CML Report
         env:
