@@ -13,7 +13,7 @@ jobs:
             docker run ghcr.io/iterative/workshop-uncool-mlops-solution:main "${{ github.event.issue.title }}" > result.json
       - name: Get Label
         id: get-label
-        run: echo "::set-output name=label::${jq '.label' result.json}"
+        run: echo "::set-output name=label::$(jq '.label' result.json)"
       - name: Add Label
         uses: actions-ecosystem/action-add-labels@v1
         with:
