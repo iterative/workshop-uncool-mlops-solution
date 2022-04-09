@@ -7,9 +7,14 @@ on:
 jobs:
   predict:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        model: ["ghcr.io/iterative/workshop-uncool-mlops-solution:main"]
     steps:
       - name: Model Predict
-        run: docker run ${{ matrix.model }} "${{ github.event.issue.title }}"
+        run: |
+            docker run ghcr.io/iterative/workshop-uncool-mlops-solution:main "${{ github.event.issue.title }}" > result.json
+      - name: Get Label
+        id: get-label
+        run: echo "::set-output name=label::${jq '.label' result.json}"
+      - name: Add Label
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: ${{ steps.get-label.outputs.label }}
