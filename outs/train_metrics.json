@@ -1,13 +1,13 @@
 {
-    "step": 8,
-    "eval_loss": 0.4055614173412323,
-    "eval_accuracy": 0.875,
-    "eval_runtime": 0.0901,
-    "eval_samples_per_second": 177.577,
-    "eval_steps_per_second": 11.099,
-    "epoch": 8.0,
-    "train_runtime": 31.7321,
-    "train_samples_per_second": 36.052,
-    "train_steps_per_second": 4.538,
-    "train_loss": 0.6278799904717339
+    "step": 12,
+    "eval_loss": 0.35996174812316895,
+    "eval_accuracy": 1.0,
+    "eval_runtime": 0.046,
+    "eval_samples_per_second": 347.556,
+    "eval_steps_per_second": 21.722,
+    "epoch": 12.0,
+    "train_runtime": 34.2655,
+    "train_samples_per_second": 50.079,
+    "train_steps_per_second": 6.304,
+    "train_loss": 0.6627739093921803
 }
