@@ -1,0 +1,20 @@
+name: Issue Labeler
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  predict:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Model Predict
+        run: |
+            docker run ghcr.io/iterative/workshop-uncool-mlops-solution:main "${{ github.event.issue.title }}" > result.json
+      - name: Get Label
+        id: get-label
+        run: echo "::set-output name=label::$(jq '.label' result.json -r)"
+      - name: Add Label
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: ${{ steps.get-label.outputs.label }}
