@@ -11,16 +11,7 @@ First, we create a Dockerfile that wraps our model and uses the [inference scrip
 <details>
 <summary>Create and fill `Dockerfile`</summary>
 
-```dockerfile
-FROM huggingface/transformers-pytorch-cpu:latest
-
-COPY outs/train model
-COPY src/inference.py inference.py
-
-RUN pip3 install fire loguru
-
-ENTRYPOINT ["python3", "inference.py", "model"]
-```
+https://github.com/iterative/workshop-uncool-mlops-solution/blob/main/Dockerfile
 
 </details>
 
@@ -30,65 +21,14 @@ publish it to the container registry.
 <details>
 <summary>Create and fill `.github/workflows/deploy_model.yml`</summary>
 
-```yaml
-name: Create and publish a Docker image
+https://github.com/iterative/workshop-uncool-mlops-solution/blob/main/.github/workflows/deploy_model.yaml
 
-on:
-  push:
-    branches:
-      - 'main'
-    tags:
-      - 'v*'
-
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
-
-jobs:
-  build-and-push-image:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Log in to the Container registry
-        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-  
-      - name: Setup
-        env:
-          GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
-        run: |
-          pip install dvc[gdrive]
-          dvc pull outs/train
-  
-      - name: Build and push Docker image
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-```
 </details>
 
 Once this has been merged and the first image published, we can use it from anywhere:
 
 ```console
-docker run "ghcr.io/daavoo/workshop-uncool-mlops:main" "dvc pull fails when using my S3 remote"
+docker run "ghcr.io/iterative/workshop-uncool-mlops-solution:main" "dvc pull fails when using my S3 remote"
 {"label": "data-sync", "score": 0.8273094296455383}
 ```
 
@@ -98,28 +38,7 @@ whenever a new issue is created and uses the wrapped model to automatically assi
 <details>
 <summary>Create and fill `.github/workflows/issue_labeler.yml`</summary>
 
-```yaml
-name: Issue Labeler
-
-on:
-  issues:
-    types: [opened]
-
-jobs:
-  predict:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Model Predict
-        run: |
-            docker run ghcr.io/daavoo/workshop-uncool-mlops:main "${{ github.event.issue.title }}" > result.json
-      - name: Get Label
-        id: get-label
-        run: echo "::set-output name=label::$(jq '.label' result.json -r)"
-      - name: Add Label
-        uses: actions-ecosystem/action-add-labels@v1
-        with:
-          labels: ${{ steps.get-label.outputs.label }}
-```
+https://github.com/iterative/workshop-uncool-mlops-solution/blob/main/.github/workflows/issue_labeler.yaml
 
 </details>
 
