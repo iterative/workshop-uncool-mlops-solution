@@ -5,7 +5,7 @@
     },
     {
         "actual": "data-sync",
-        "predicted": "experiments"
+        "predicted": "data-sync"
     },
     {
         "actual": "experiments",
@@ -13,7 +13,7 @@
     },
     {
         "actual": "data-sync",
-        "predicted": "experiments"
+        "predicted": "data-sync"
     },
     {
         "actual": "experiments",
@@ -21,7 +21,7 @@
     },
     {
         "actual": "data-sync",
-        "predicted": "experiments"
+        "predicted": "data-sync"
     },
     {
         "actual": "experiments",
@@ -49,7 +49,7 @@
     },
     {
         "actual": "data-sync",
-        "predicted": "experiments"
+        "predicted": "data-sync"
     },
     {
         "actual": "plots",
@@ -61,6 +61,6 @@
     },
     {
         "actual": "data-sync",
-        "predicted": "experiments"
+        "predicted": "data-sync"
     }
 ]
