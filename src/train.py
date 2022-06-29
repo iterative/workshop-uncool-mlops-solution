@@ -27,6 +27,7 @@ def train(input_folder, output_folder):
     with open("params.yaml") as f:
         params = yaml.safe_load(f)
 
+    print(list(Path(input_folder).iterdir()))
     raw_datasets = load_dataset("json", 
         data_files={
             "train": str(Path(input_folder) / "train.json"), 

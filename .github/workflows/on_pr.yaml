@@ -45,7 +45,7 @@ jobs:
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cml pr --rebase "dvc.lock" "params.yaml" "outs/*.json" "outs/eval"  "outs/train_metrics"
+          cml pr --squash "dvc.lock" "params.yaml" "outs/*.json" "outs/eval"  "outs/train_metrics"
 
       - name: CML Report
         env:
