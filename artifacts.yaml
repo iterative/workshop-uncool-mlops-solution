@@ -1,6 +1,0 @@
-workshop-model:
-  description: HuggingFace model.
-  labels:
-  - DVC-Labels
-  path: outs/train/pytorch_model.bin
-  type: model
